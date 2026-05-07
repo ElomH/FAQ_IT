@@ -1,0 +1,493 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ IT – CARE Bénin/Togo</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #F4F6F8; color: #333; }
+
+  /* HERO */
+  .hero { background: #E36F1E; padding: 28px 40px 44px; }
+  .hero-top { position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; min-height: 90px; }
+  .hero-logo { position: absolute; left: 0; height: 90px; }
+  .hero-brand { font-size: 32px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; color: #fff; line-height: 1.15; text-align: center; }
+  .hero h1 { display: none; }
+  .hero-sub { display: none; }
+  .search-bar { display: flex; align-items: center; background: #fff; border-radius: 40px; padding: 10px 18px; max-width: 560px; margin: 0 auto; box-shadow: 0 6px 24px rgba(0,0,0,0.22); }
+  .search-bar input { flex: 1; border: none; outline: none; font-size: 15px; font-family: inherit; color: #333; background: transparent; }
+  .search-bar input::placeholder { color: #aab0b8; }
+  .search-icon { font-size: 17px; margin-right: 10px; }
+  .clear-btn { background: none; border: none; cursor: pointer; color: #666; font-size: 14px; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .clear-btn:hover { background: rgba(0,0,0,0.06); }
+
+  /* BODY */
+  .body { max-width: 980px; margin: 0 auto; padding: 26px 16px 40px; }
+
+  /* TABS */
+  .cat-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+  .cat-tab { background: #fff; border: 2px solid #e0e6ec; border-radius: 24px; padding: 6px 15px; font-size: 13px; font-family: inherit; cursor: pointer; color: #333; transition: border-color .15s, color .15s, background .15s; }
+  .cat-tab:hover { border-color: #E36F1E; color: #E36F1E; }
+  .cat-tab.active { background: #005073; border-color: #005073; color: #fff; }
+
+  /* GRILLE CATÉGORIES */
+  .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .cat-card { background: #fff; border: none; border-radius: 8px; border-top: 3px solid #E36F1E; padding: 22px 18px; text-align: left; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.07); display: flex; flex-direction: column; gap: 5px; transition: transform .15s, box-shadow .15s, border-top-color .15s; font-family: inherit; }
+  .cat-card:hover { transform: translateY(-3px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); border-top-color: #005073; }
+  .cat-icon { font-size: 28px; margin-bottom: 4px; }
+  .cat-title { font-size: 15px; font-weight: 600; color: #005073; }
+  .cat-desc { font-size: 13px; color: #666; line-height: 1.5; }
+  .cat-count { font-size: 12px; font-weight: 600; color: #E36F1E; margin-top: 4px; }
+
+  /* HEADER CATÉGORIE */
+  .cat-header { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+  .cat-header-icon { font-size: 24px; }
+  .cat-header h2 { flex: 1; font-size: 21px; font-weight: 600; color: #005073; }
+  .back-btn { background: none; border: 2px solid #005073; color: #005073; border-radius: 20px; padding: 6px 16px; font-family: inherit; font-size: 13px; cursor: pointer; transition: background .15s, color .15s; }
+  .back-btn:hover { background: #005073; color: #fff; }
+
+  /* META RECHERCHE */
+  .search-meta { font-size: 14px; color: #666; margin-bottom: 14px; }
+
+  /* LISTE FAQ */
+  .faq-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 36px; }
+  .faq-item { background: #fff; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.07); border-left: 4px solid #e0e6ec; overflow: hidden; transition: border-left-color .2s; }
+  .faq-item.open { border-left-color: #E36F1E; }
+  .faq-header { width: 100%; background: none; border: none; padding: 15px 16px; display: flex; align-items: center; gap: 11px; cursor: pointer; text-align: left; font-family: inherit; transition: background .12s; }
+  .faq-header:hover { background: rgba(0,0,0,0.025); }
+  .badge { font-size: 11px; font-weight: 700; color: #fff; padding: 3px 9px; border-radius: 12px; white-space: nowrap; flex-shrink: 0; }
+  .faq-question { flex: 1; font-size: 15px; font-weight: 600; color: #333; line-height: 1.4; }
+  .faq-site { font-size: 12px; color: #666; white-space: nowrap; }
+  .faq-chevron { font-size: 10px; color: #005073; flex-shrink: 0; }
+  .faq-body { padding: 4px 18px 18px; border-top: 1px solid #f0f3f6; }
+  .faq-resume { font-size: 14px; color: #666; font-style: italic; margin: 11px 0 16px; line-height: 1.6; }
+  .solution-title { font-size: 14px; font-weight: 600; color: #005073; margin-bottom: 10px; }
+  .solution-steps { margin: 0 0 16px; padding-left: 20px; }
+  .solution-steps li { font-size: 14px; color: #333; margin-bottom: 7px; line-height: 1.6; }
+  .contact-bar { background: #eef3f7; border-radius: 6px; padding: 11px 14px; display: flex; align-items: center; flex-wrap: wrap; gap: 13px; font-size: 13px; margin-bottom: 10px; }
+  .contact-label { font-weight: 600; }
+  .contact-link { color: #005073; text-decoration: none; font-weight: 500; }
+  .contact-link:hover { color: #E36F1E; text-decoration: underline; }
+  .faq-footer { font-size: 11px; color: #9aa5b1; }
+
+  /* AUCUN RÉSULTAT */
+  .no-results { text-align: center; padding: 44px 20px; color: #666; font-size: 15px; }
+  .no-results p { margin-bottom: 8px; }
+
+  /* SECTION AIDE */
+  .help-section { background: #E36F1E; border-radius: 8px; padding: 28px 22px; text-align: center; margin-top: 8px; }
+  .help-section h3 { font-size: 19px; font-weight: 600; color: #fff; margin-bottom: 7px; }
+  .help-section p { font-size: 14px; color: rgba(255,255,255,0.82); margin-bottom: 20px; }
+  .help-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 11px; }
+  .help-btn { display: inline-block; background: rgba(255,255,255,0.13); color: #fff; border: 2px solid rgba(255,255,255,0.38); border-radius: 24px; padding: 9px 20px; text-decoration: none; font-size: 14px; font-weight: 500; font-family: inherit; transition: background .15s, border-color .15s; cursor: pointer; }
+  .help-btn:hover { background: rgba(255,255,255,0.24); border-color: #fff; }
+  .help-btn-primary { background: #E36F1E; border-color: #E36F1E; }
+  .help-btn-primary:hover { background: #c55910; border-color: #c55910; }
+
+  /* LOADING / ERROR */
+  .loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 70px 20px; color: #666; gap: 14px; font-size: 15px; }
+  .spinner { width: 34px; height: 34px; border: 3px solid #e0e6ec; border-top-color: #E36F1E; border-radius: 50%; animation: spin .75s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .error-box { display: flex; flex-direction: column; align-items: center; padding: 54px 20px; gap: 11px; color: #c62828; font-size: 15px; text-align: center; }
+  .retry-btn { margin-top: 4px; padding: 8px 22px; background: #E36F1E; color: #fff; border: none; border-radius: 20px; font-family: inherit; font-size: 14px; cursor: pointer; }
+  .retry-btn:hover { background: #c55910; }
+
+  /* HIDDEN */
+  .hidden { display: none !important; }
+
+  @media(max-width:768px) { .hero h1 { font-size: 21px; } .cat-grid { grid-template-columns: 1fr 1fr; } .faq-site { display: none; } }
+  @media(max-width:480px) { .cat-grid { grid-template-columns: 1fr; } .help-actions { flex-direction: column; align-items: center; } }
+</style>
+</head>
+<body>
+
+<!-- ── Hero ──────────────────────────────────────────────────────────── -->
+<div class="hero">
+  <div class="hero-top">
+    <a href="https://careinternational.sharepoint.com/" target="_blank" rel="noopener" style="display:inline-block;line-height:0">
+      <img src="https://careinternational.sharepoint.com/sites/FAQ_IT/Documents%20partages/Logo.png" alt="CARE" class="hero-logo">
+    </a>
+    <p class="hero-brand">CARE BÉNIN / TOGO &nbsp;·&nbsp; FAQ IT</p>
+  </div>
+  <div class="search-bar" role="search">
+    <span class="search-icon" aria-hidden="true">🔍</span>
+    <input type="search" id="searchInput" placeholder="Rechercher un problème, un mot-clé…" aria-label="Recherche FAQ IT" autocomplete="off">
+    <button class="clear-btn hidden" id="clearBtn" aria-label="Effacer">✕</button>
+  </div>
+</div>
+
+<!-- ── Corps ──────────────────────────────────────────────────────────── -->
+<div class="body">
+
+  <!-- Tabs catégories -->
+  <nav class="cat-nav hidden" id="catNav" aria-label="Filtres par catégorie">
+    <button class="cat-tab active" data-key="">Toutes les catégories</button>
+  </nav>
+
+  <!-- Grille d'accueil -->
+  <section class="cat-grid hidden" id="catGrid" aria-label="Catégories"></section>
+
+  <!-- En-tête catégorie -->
+  <div class="cat-header hidden" id="catHeader">
+    <span class="cat-header-icon" id="catHeaderIcon"></span>
+    <h2 id="catHeaderTitle"></h2>
+    <button class="back-btn" id="backBtn">← Retour</button>
+  </div>
+
+  <!-- Meta recherche -->
+  <p class="search-meta hidden" id="searchMeta"></p>
+
+  <!-- Liste FAQ -->
+  <div class="faq-list hidden" id="faqList" role="list"></div>
+
+  <!-- Chargement -->
+  <div class="loading" id="loadingBox">
+    <div class="spinner"></div>
+    <p>Chargement des fiches FAQ…</p>
+  </div>
+
+  <!-- Erreur -->
+  <div class="error-box hidden" id="errorBox">
+    <span style="font-size:38px">⚠️</span>
+    <p id="errorMsg"></p>
+    <button class="retry-btn" id="retryBtn">Réessayer</button>
+  </div>
+
+  <!-- Section aide -->
+  <div class="help-section" id="helpSection" style="display:none">
+    <h3>🆘 Vous n'avez pas trouvé la réponse ?</h3>
+    <p>L'équipe IT CARE est disponible pour vous accompagner.</p>
+    <div class="help-actions" id="helpActions"></div>
+  </div>
+
+</div>
+
+<script>
+// ── Configuration ─────────────────────────────────────────────────────────────
+// Ces valeurs sont lues depuis les paramètres URL ou peuvent être modifiées ici
+var CONFIG = (function() {
+  var params = new URLSearchParams(window.location.search);
+  return {
+    listTitle:      params.get('list')    || 'FAQ_IT',
+    contactEmail:   params.get('email')   || 'kossiwa.hegbe@care.org',
+    teamsUrl:       params.get('teams')   || 'https://teams.microsoft.com/l/chat/0/0?users=kossiwa.hegbe@care.org',
+    helpdeskUrl:    params.get('helpdesk')|| '',
+    siteUrl:        params.get('site')    || 'https://careinternational.sharepoint.com/sites/FAQ_IT'
+  };
+})();
+
+// ── Données ───────────────────────────────────────────────────────────────────
+var CATEGORIES = [
+  { key: 'Acces et authentification',    label: 'Accès et authentification', icon: '🔐', desc: 'OKTA, CARE ID, MFA, réinitialisation mots de passe' },
+  { key: 'Support materiel',             label: 'Support matériel',          icon: '💻', desc: 'PC, laptops, imprimantes, onduleurs, modems' },
+  { key: 'Assistance logicielle',        label: 'Assistance logicielle',     icon: '🖥️', desc: 'Teams, Outlook, Adobe, SharePoint, Microsoft 365' },
+  { key: 'Reseau et internet',           label: 'Réseau et internet',        icon: '🌐', desc: 'Connexion, SIM DATA MTN/MOOV, Wi-Fi, VPN' },
+  { key: 'Configuration et maintenance', label: 'Configuration et maintenance', icon: '🛠️', desc: 'Zabbix, Odoo, drivers, antivirus, périphériques' },
+  { key: 'Procedures internes',          label: 'Procédures internes',       icon: '📋', desc: 'Demande support, KeePass, déploiement, archivage' }
+];
+
+var NIVEAU_COLORS = {
+  'Critique': '#c62828', 'Standard': '#1565c0',
+  'Nouveau collaborateur': '#2e7d32', 'Terrain': '#e65100', 'Remote': '#6a1b9a'
+};
+
+var allItems = [];
+var currentCategory = null;
+var expandedId = null;
+
+// ── DOM refs ──────────────────────────────────────────────────────────────────
+var searchInput  = document.getElementById('searchInput');
+var clearBtn     = document.getElementById('clearBtn');
+var catNav       = document.getElementById('catNav');
+var catGrid      = document.getElementById('catGrid');
+var catHeader    = document.getElementById('catHeader');
+var catHeaderIcon= document.getElementById('catHeaderIcon');
+var catHeaderTitle = document.getElementById('catHeaderTitle');
+var backBtn      = document.getElementById('backBtn');
+var searchMeta   = document.getElementById('searchMeta');
+var faqList      = document.getElementById('faqList');
+var loadingBox   = document.getElementById('loadingBox');
+var errorBox     = document.getElementById('errorBox');
+var errorMsg     = document.getElementById('errorMsg');
+var retryBtn     = document.getElementById('retryBtn');
+var helpSection  = document.getElementById('helpSection');
+var helpActions  = document.getElementById('helpActions');
+
+// ── Données embarquées ────────────────────────────────────────────────────────
+// Pour mettre à jour les fiches, modifiez ce tableau puis ré-uploadez le fichier.
+// field_1=Catégorie  field_2=Niveau  field_3=Résumé  field_4=Solution (séparateur |)
+// field_5=Statut  field_6=Site  field_7=Date mise à jour
+var EMBEDDED_DATA = [
+  { Id:1,  Title:"Compte OKTA bloqu\u00e9",                          field_1:"Acces et authentification",    field_2:"Critique", field_3:"Je ne peux plus me connecter \u00e0 OKTA.",                                        field_4:"Aller sur le portail OKTA (okta.care.org)|Cliquer sur \u00ab Trouble signing in \u00bb|Choisir \u00ab Forgot password \u00bb|Suivre l'assistant de r\u00e9initialisation MFA|Si OTP non re\u00e7u, contacter l'IT avec votre CARE ID",                                                                                                            field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:2,  Title:"Mot de passe CARE ID oubli\u00e9",                 field_1:"Acces et authentification",    field_2:"Standard", field_3:"Le mot de passe CARE ID ne fonctionne plus.",                                      field_4:"Ouvrir le portail CARE ID (careid.care.org)|Cliquer sur \u00ab Mot de passe oubli\u00e9 \u00bb|Saisir votre adresse email CARE|Suivre la v\u00e9rification MFA (SMS ou Authenticator)|D\u00e9finir un nouveau mot de passe conforme \u00e0 la politique",                                                                                               field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:3,  Title:"MFA OKTA non re\u00e7u",                            field_1:"Acces et authentification",    field_2:"Critique", field_3:"Le code SMS ou OTP OKTA n'arrive pas.",                                           field_4:"V\u00e9rifier que votre t\u00e9l\u00e9phone est allum\u00e9 et \u00e0 port\u00e9e r\u00e9seau|Attendre 2 minutes puis cliquer sur \u00ab Renvoyer le code \u00bb|Essayer Microsoft Authenticator comme m\u00e9thode alternative|Si toujours bloqu\u00e9, contacter l'IT pour r\u00e9initialiser le facteur (resetFactor)",                                      field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:4,  Title:"Compte CARE ID expir\u00e9",                        field_1:"Acces et authentification",    field_2:"Standard", field_3:"Le syst\u00e8me indique que votre compte est expir\u00e9.",                              field_4:"Contacter l'IT avec votre CARE ID et matricule (Teams ou email)|L'IT v\u00e9rifie la date d'expiration dans l'annuaire|Renouvellement effectu\u00e9 par l'IT Manager apr\u00e8s validation RH|Tester la reconnexion 15 min apr\u00e8s confirmation IT",                                                                                                  field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:5,  Title:"Impossible d'activer la double authentification",  field_1:"Acces et authentification",    field_2:"Standard", field_3:"L'activation MFA \u00e9choue dans Teams ou le portail M365.",                          field_4:"Se connecter au portail M365 (portal.office.com)|Aller dans Mon compte \u2192 S\u00e9curit\u00e9|Cliquer sur \u00ab Configurer la v\u00e9rification \u00bb|Choisir Application Authenticator|Scanner le QR code avec Microsoft Authenticator|Valider le code \u00e0 6 chiffres affich\u00e9",                                                              field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:6,  Title:"PC lent ou qui rame",                              field_1:"Support materiel",             field_2:"Standard", field_3:"L'ordinateur est tr\u00e8s lent au d\u00e9marrage ou en cours d'utilisation.",               field_4:"Red\u00e9marrer le PC (ne pas seulement mettre en veille)|Ouvrir le Gestionnaire des t\u00e2ches (Ctrl+Shift+\u00c9chap) et identifier les processus gourmands|V\u00e9rifier l'espace disque disponible (cible >15% libre)|Lancer une analyse antivirus|Si <8 Go RAM, contacter l'IT pour mise \u00e0 niveau",                                          field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:7,  Title:"Disque dur plein",                                 field_1:"Support materiel",             field_2:"Standard", field_3:"L'alerte \u00ab Stockage faible \u00bb appara\u00eet sur le PC.",                                 field_4:"Ouvrir l'Explorateur de fichiers \u2192 clic droit sur C: \u2192 Propri\u00e9t\u00e9s|Utiliser le Nettoyage de disque pour supprimer les fichiers temporaires|Vider la corbeille|Archiver les fichiers anciens sur SharePoint ou le NAS|Notifier l'IT si <5 Go restants pour intervention hardware",                                                    field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:8,  Title:"\u00c9cran externe non d\u00e9tect\u00e9",                        field_1:"Support materiel",             field_2:"Standard", field_3:"Le second \u00e9cran n'appara\u00eet pas apr\u00e8s branchement.",                                field_4:"V\u00e9rifier que le c\u00e2ble (HDMI/VGA/DisplayPort) est bien ins\u00e9r\u00e9 des deux c\u00f4t\u00e9s|Appuyer sur Windows+P et s\u00e9lectionner \u00c9tendre ou Dupliquer|Clic droit sur le Bureau \u2192 Param\u00e8tres d'affichage \u2192 D\u00e9tecter|Essayer un autre c\u00e2ble ou port|Mettre \u00e0 jour le driver graphique via le Gestionnaire de p\u00e9riph\u00e9riques",     field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:9,  Title:"Imprimante r\u00e9seau inaccessible",               field_1:"Support materiel",             field_2:"Standard", field_3:"L'imprimante r\u00e9seau n'est pas disponible depuis le PC.",                            field_4:"V\u00e9rifier que l'imprimante est allum\u00e9e et connect\u00e9e au r\u00e9seau|Imprimer une page de test depuis le panneau de l'imprimante|Sur le PC \u2192 Panneau de configuration \u2192 P\u00e9riph\u00e9riques et imprimantes \u2192 Ajouter une imprimante|Saisir l'IP de l'imprimante (consultez le tableau inventaire IT)|R\u00e9installer le driver si l'imprimante est d\u00e9tect\u00e9e mais ne r\u00e9pond pas",   field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:10, Title:"Onduleur en alarme",                               field_1:"Support materiel",             field_2:"Critique", field_3:"L'onduleur (UPS) \u00e9met une alarme sonore.",                                           field_4:"Identifier le type d'alarme (batterie faible / surcharge / d\u00e9faillance)|NE PAS \u00e9teindre les serveurs brutalement|Effectuer un arr\u00eat propre des \u00e9quipements non critiques|Appeler imm\u00e9diatement l'IT (hotline)|V\u00e9rifier l'\u00e9tat de la batterie dans le logiciel UPS ou en fa\u00e7ade",                                              field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:11, Title:"Teams ne se connecte pas",                         field_1:"Assistance logicielle",        field_2:"Standard", field_3:"Teams reste bloqu\u00e9 sur l'\u00e9cran de connexion ou en boucle.",                        field_4:"V\u00e9rifier la connexion internet|Vider le cache Teams (fermer Teams \u2192 %AppData%\\Microsoft\\Teams \u2192 supprimer le contenu)|Relancer Teams|Si toujours bloqu\u00e9, se d\u00e9connecter puis se reconnecter avec le compte CARE|En dernier recours, d\u00e9sinstaller et r\u00e9installer Teams",                                                          field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:12, Title:"Outlook \u2013 bo\u00eete partag\u00e9e introuvable",              field_1:"Assistance logicielle",        field_2:"Standard", field_3:"La bo\u00eete mail partag\u00e9e n'appara\u00eet pas dans Outlook.",                              field_4:"Dans Outlook \u2192 Fichier \u2192 Param\u00e8tres du compte|S\u00e9lectionner le compte Exchange \u2192 Modifier \u2192 Param\u00e8tres suppl\u00e9mentaires|Onglet Options avanc\u00e9es \u2192 Ajouter (saisir l'adresse de la bo\u00eete partag\u00e9e)|Valider et red\u00e9marrer Outlook|Si acc\u00e8s refus\u00e9, demander \u00e0 l'IT d'ajouter vos permissions",       field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:13, Title:"Adobe \u2013 licence expir\u00e9e",                             field_1:"Assistance logicielle",        field_2:"Standard", field_3:"Adobe Acrobat ou Creative Cloud indique licence expir\u00e9e.",                         field_4:"Ouvrir Creative Cloud Desktop \u2192 v\u00e9rifier le statut de la licence|Se d\u00e9connecter puis se reconnecter avec le compte Adobe CARE|Si message \u00ab Essai expir\u00e9 \u00bb, contacter l'IT pour r\u00e9attribution de licence|En attendant, utiliser Microsoft Edge (lecture PDF native) ou LibreOffice",                                           field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:14, Title:"SharePoint \u2013 synchronisation OneDrive bloqu\u00e9e",       field_1:"Assistance logicielle",        field_2:"Standard", field_3:"Le dossier OneDrive reste en attente ou affiche une erreur de synchro.",              field_4:"Cliquer sur l'ic\u00f4ne OneDrive dans la barre des t\u00e2ches \u2192 Aide et param\u00e8tres \u2192 Afficher la synchro|Identifier le fichier probl\u00e9matique (nom trop long ou caract\u00e8re invalide)|Renommer ou d\u00e9placer le fichier hors du dossier OneDrive|Forcer la pause puis la reprise de la synchro|Si probl\u00e8me persistant, quitter OneDrive et le relancer",   field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:15, Title:"Microsoft 365 \u2013 activation impossible",                   field_1:"Assistance logicielle",        field_2:"Standard", field_3:"Office affiche \u00ab Produit sans licence \u00bb ou \u00ab Activer Office \u00bb.",                     field_4:"V\u00e9rifier la connexion internet|Ouvrir une application Office \u2192 Fichier \u2192 Compte \u2192 Se connecter avec le compte CARE|Aller dans Param\u00e8tres Windows \u2192 Comptes \u2192 v\u00e9rifier le compte professionnel|Ex\u00e9cuter l'assistant Microsoft Support and Recovery Assistant|Contacter l'IT si l'erreur 0x800488FD ou similaire persiste",          field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:16, Title:"Outlook \u2013 r\u00e8gle automatique ne fonctionne pas",       field_1:"Assistance logicielle",        field_2:"Standard", field_3:"Les r\u00e8gles de messagerie ne s'ex\u00e9cutent pas automatiquement.",                       field_4:"Fichier \u2192 G\u00e9rer les r\u00e8gles et alertes \u2192 v\u00e9rifier que la r\u00e8gle est bien coch\u00e9e (active)|V\u00e9rifier l'ordre des r\u00e8gles|S'assurer que \u00ab Arr\u00eater le traitement des r\u00e8gles \u00bb n'est pas coch\u00e9 sur une r\u00e8gle ant\u00e9rieure|Tester en appliquant la r\u00e8gle manuellement sur les messages existants|Si Exchange, les r\u00e8gles c\u00f4t\u00e9 serveur priment",  field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:17, Title:"SIM DATA MTN/MOOV lente",                          field_1:"Reseau et internet",            field_2:"Standard", field_3:"Internet tr\u00e8s lent ou instable avec la carte SIM 4G.",                                 field_4:"V\u00e9rifier que la SIM est provisonn\u00e9e dans le tableau logistique IT|Contr\u00f4ler l'APN : MTN B\u00e9nin = internet.mtn.bj / MOOV Togo = internet.moov.tg|Red\u00e9marrer le modem/routeur 4G|Tester le d\u00e9bit via speed.cloudflare.com (cible >2 Mbps)|Si d\u00e9bit insuffisant, basculer sur le modem de secours et cr\u00e9er un ticket aupr\u00e8s du FAI",                field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:18, Title:"Connexion internet inexistante au bureau",          field_1:"Reseau et internet",            field_2:"Critique", field_3:"Plus de connexion internet dans les locaux CARE.",                                    field_4:"V\u00e9rifier si la coupure est locale (un seul PC) ou g\u00e9n\u00e9rale (tous les postes)|Red\u00e9marrer le routeur et le switch (d\u00e9brancher 30 secondes puis rebrancher)|Tester avec un c\u00e2ble directement sur le routeur|Contacter le prestataire FAI si n\u00e9cessaire|Activer les modems 4G de secours pour continuer le travail",                                   field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:19, Title:"R\u00e9p\u00e9teur Wi-Fi ne r\u00e9pond plus",                      field_1:"Reseau et internet",            field_2:"Standard", field_3:"Le Wi-Fi est absent dans certaines salles ou zones.",                                 field_4:"Localiser le r\u00e9p\u00e9teur Wi-Fi de la zone concern\u00e9e (cf. plan r\u00e9seau)|V\u00e9rifier que le voyant est allum\u00e9 (vert = OK / rouge = d\u00e9faillance)|D\u00e9brancher le r\u00e9p\u00e9teur 30 secondes puis rebrancher|Attendre 2 minutes que le r\u00e9seau se stabilise|Si toujours absent, contacter l'IT pour remplacement ou repositionnement",   field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:20, Title:"VPN impossible \u00e0 \u00e9tablir",                            field_1:"Reseau et internet",            field_2:"Standard", field_3:"La connexion VPN CARE \u00e9choue depuis l'ext\u00e9rieur.",                                  field_4:"V\u00e9rifier que la connexion internet locale fonctionne|Ouvrir le client VPN et v\u00e9rifier l'adresse du serveur (cf. documentation IT)|S'assurer que le pare-feu Windows n'est pas en cause|V\u00e9rifier les identifiants OKTA utilis\u00e9s pour l'authentification VPN|Contacter l'IT si le code d'erreur est 691 (auth) ou 809 (r\u00e9seau)",              field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:21, Title:"Visioconf\u00e9rence Teams instable",                   field_1:"Reseau et internet",            field_2:"Standard", field_3:"La visioconf\u00e9rence est hach\u00e9e ou coupe fr\u00e9quemment.",                                field_4:"Tester le d\u00e9bit pendant la r\u00e9union (objectif >5 Mbps)|Couper la cam\u00e9ra vid\u00e9o pour r\u00e9duire la bande passante|Utiliser un c\u00e2ble ethernet plut\u00f4t que le Wi-Fi|Fermer les applications en arri\u00e8re-plan (mises \u00e0 jour, synchro)|Si probl\u00e8me c\u00f4t\u00e9 salle de r\u00e9union, v\u00e9rifier la connexion du bo\u00eetier Teams Room",           field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:22, Title:"Alerte Zabbix non r\u00e9solue",                        field_1:"Configuration et maintenance",  field_2:"Standard", field_3:"Une alerte Zabbix persiste sans raison apparente.",                                   field_4:"Se connecter \u00e0 Zabbix (URL interne IT)|Identifier le host et le type de d\u00e9clencheur (trigger)|V\u00e9rifier si l'\u00e9quipement est effectivement en anomalie ou si c'est un faux positif|Acquitter (acknowledge) l'alerte avec un commentaire dans Zabbix|Si probl\u00e8me r\u00e9el, escalader selon la matrice d'escalade IT (critique < 4h ouvertes)",       field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:23, Title:"Odoo \u2013 impossible de se connecter",                  field_1:"Configuration et maintenance",  field_2:"Standard", field_3:"La connexion \u00e0 Odoo \u00e9choue avec les identifiants habituels.",                       field_4:"V\u00e9rifier l'URL du serveur Odoo (interne ou cloud)|S'assurer que le compte n'est pas d\u00e9sactiv\u00e9 (contacter l'administrateur Odoo)|Effacer le cache du navigateur et r\u00e9essayer|Tester depuis un autre navigateur|Si le serveur est inaccessible depuis tous les postes, pr\u00e9venir l'IT (incident serveur possible)",                                 field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:24, Title:"Driver imprimante \u00e0 installer",                      field_1:"Configuration et maintenance",  field_2:"Standard", field_3:"Windows ne trouve pas le driver de l'imprimante.",                                    field_4:"Identifier la marque et le mod\u00e8le exacts de l'imprimante (\u00e9tiquette au dos)|T\u00e9l\u00e9charger le driver sur le site officiel du fabricant|Ex\u00e9cuter le fichier d'installation en tant qu'administrateur|Apr\u00e8s installation, imprimer une page de test|Si driver introuvable, contacter l'IT pour d\u00e9ploiement via GPO",                              field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:25, Title:"Antivirus \u2013 alerte ou analyse bloqu\u00e9e",              field_1:"Configuration et maintenance",  field_2:"Critique", field_3:"L'antivirus signale une menace ou bloque l'acc\u00e8s \u00e0 un fichier.",                     field_4:"NE PAS ignorer ni d\u00e9sactiver l'alerte antivirus|Mettre en quarantaine le fichier signal\u00e9 via l'interface antivirus|Contacter imm\u00e9diatement l'IT en envoyant une capture d'\u00e9cran de l'alerte|Ne pas ouvrir d'autres fichiers suspects en attendant|L'IT effectuera un scan complet du poste avant de confirmer la remise en service",                        field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:26, Title:"Scanner r\u00e9seau non trouv\u00e9",                          field_1:"Configuration et maintenance",  field_2:"Standard", field_3:"Le scanner n'appara\u00eet pas dans les applications de num\u00e9risation.",                   field_4:"V\u00e9rifier que le scanner est allum\u00e9 et connect\u00e9 au r\u00e9seau|Param\u00e8tres \u2192 Bluetooth et appareils \u2192 Imprimantes et scanners \u2192 Ajouter un appareil|Si non d\u00e9tect\u00e9, installer le logiciel constructeur (ex. EPSON Scan)|V\u00e9rifier que l'IP du scanner est dans le m\u00eame sous-r\u00e9seau que le PC|Contacter l'IT pour ajout dans Active Directory si n\u00e9cessaire",   field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:27, Title:"Demande de support IT",                            field_1:"Procedures internes",          field_2:"Standard", field_3:"Comment soumettre une demande au Helpdesk CARE.",                                    field_4:"Ouvrir le formulaire support SharePoint (lien dans Teams \u2192 onglet Helpdesk)|Choisir la cat\u00e9gorie de votre probl\u00e8me|Indiquer le niveau d'urgence (Critique / Standard / Projet)|Renseigner le bureau et les coordonn\u00e9es|Soumettre : accus\u00e9 de r\u00e9ception automatique par email et Teams. SLA : Critique 4h / Standard 8h / Projet 3 jours ouvrables",  field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:28, Title:"KeePass \u2013 base de donn\u00e9es inaccessible",              field_1:"Procedures internes",          field_2:"Critique", field_3:"KeePass ne s'ouvre pas ou le mot de passe ma\u00eetre est refus\u00e9.",                         field_4:"V\u00e9rifier que le fichier .kdbx est pr\u00e9sent dans son emplacement habituel (NAS ou OneDrive)|S'assurer que vous utilisez le bon mot de passe ma\u00eetre (sensible \u00e0 la casse)|V\u00e9rifier si un fichier cl\u00e9 (.keyx) est requis en plus du mot de passe|Ne pas tenter plus de 5 essais pour \u00e9viter le verrouillage|Contacter l'IT imm\u00e9diatement si vous ne pouvez pas acc\u00e9der aux mots de passe critiques",  field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:29, Title:"D\u00e9ploiement mat\u00e9riel \u2013 bon de livraison",              field_1:"Procedures internes",          field_2:"Standard", field_3:"Comment effectuer la r\u00e9ception et l'enregistrement d'un \u00e9quipement IT.",              field_4:"V\u00e9rifier la conformit\u00e9 avec le bon de commande (r\u00e9f\u00e9rence, quantit\u00e9, \u00e9tat)|Remplir le bon de livraison sign\u00e9 par le responsable logistique|Enregistrer le num\u00e9ro de s\u00e9rie dans le fichier inventaire Excel IT (colonne S/N)|Apposer l'\u00e9tiquette d'inventaire CARE sur l'\u00e9quipement|Notifier l'IT Manager par email avec scan du bon de livraison",   field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" },
+  { Id:30, Title:"Archivage NAS \u2013 acc\u00e8s refus\u00e9",                        field_1:"Procedures internes",          field_2:"Standard", field_3:"Je n'arrive pas \u00e0 acc\u00e9der au partage r\u00e9seau NAS.",                                    field_4:"V\u00e9rifier que vous \u00eates connect\u00e9 au r\u00e9seau interne CARE (LAN ou VPN)|Ouvrir l'Explorateur de fichiers \u2192 saisir \\\\NAS_CARE dans la barre d'adresse|Saisir vos identifiants domaine CARE|Si acc\u00e8s refus\u00e9, demander \u00e0 l'IT d'ajouter vos droits sur le dossier concern\u00e9|V\u00e9rifier que le lecteur r\u00e9seau mapp\u00e9 est actif (Outils \u2192 Connecter un lecteur r\u00e9seau)",  field_5:"Publie", field_6:"B\u00e9nin/Togo", field_7:"2026-04-03" }
+];
+
+function loadItems() {
+  allItems = EMBEDDED_DATA;
+  hide(loadingBox);
+  renderHelpSection();
+  showHome();
+}
+
+// ── Rendu section aide ────────────────────────────────────────────────────────
+function renderHelpSection() {
+  helpActions.innerHTML = '';
+  var actions = [
+    { href: 'mailto:' + CONFIG.contactEmail, label: '📧 Envoyer un email', primary: false }
+  ];
+  if (CONFIG.teamsUrl)    actions.push({ href: CONFIG.teamsUrl,    label: '💬 Canal Teams IT',      primary: false, blank: true });
+  if (CONFIG.helpdeskUrl) actions.push({ href: CONFIG.helpdeskUrl, label: '📝 Soumettre un ticket', primary: true,  blank: true });
+
+  actions.forEach(function(a) {
+    var el = document.createElement('a');
+    el.href = a.href;
+    el.textContent = a.label;
+    el.className = 'help-btn';
+    if (a.blank) { el.target = '_blank'; el.rel = 'noreferrer noopener'; }
+    helpActions.appendChild(el);
+  });
+  helpSection.style.display = 'block';
+}
+
+// ── Vue accueil ───────────────────────────────────────────────────────────────
+function showHome() {
+  currentCategory = null;
+  expandedId = null;
+  searchInput.value = '';
+  hide(clearBtn); hide(searchMeta); hide(faqList); hide(catHeader);
+
+  // Tabs
+  buildTabs();
+  show(catNav);
+  setActiveTab('');
+
+  // Grille
+  catGrid.innerHTML = '';
+  CATEGORIES.forEach(function(cat) {
+    var count = allItems.filter(function(i) { return i.field_1 === cat.key; }).length;
+    var card = document.createElement('button');
+    card.className = 'cat-card';
+    card.setAttribute('aria-label', 'Ouvrir la catégorie ' + cat.label);
+    card.innerHTML =
+      '<span class="cat-icon">' + cat.icon + '</span>' +
+      '<strong class="cat-title">' + esc(cat.label) + '</strong>' +
+      '<span class="cat-desc">' + esc(cat.desc) + '</span>' +
+      '<span class="cat-count">' + count + ' fiche' + (count !== 1 ? 's' : '') + '</span>';
+    card.addEventListener('click', function() { showCategory(cat.key); });
+    catGrid.appendChild(card);
+  });
+  show(catGrid);
+}
+
+// ── Vue catégorie ─────────────────────────────────────────────────────────────
+function showCategory(key) {
+  currentCategory = key;
+  expandedId = null;
+  searchInput.value = '';
+  hide(clearBtn); hide(catGrid); hide(searchMeta);
+  setActiveTab(key);
+
+  var cat = CATEGORIES.find(function(c) { return c.key === key; });
+  if (cat) {
+    catHeaderIcon.textContent = cat.icon;
+    catHeaderTitle.textContent = cat.label;
+    show(catHeader);
+  }
+
+  var filtered = allItems.filter(function(i) { return i.field_1 === key; });
+  renderFaqList(filtered);
+}
+
+// ── Recherche ─────────────────────────────────────────────────────────────────
+function handleSearch(q) {
+  if (!q) { showHome(); return; }
+  currentCategory = null;
+  expandedId = null;
+  hide(catGrid); hide(catHeader);
+  setActiveTab('');
+
+  var ql = q.toLowerCase();
+  var filtered = allItems.filter(function(i) {
+    return i.Title.toLowerCase().includes(ql) ||
+      (i.field_3 || '').toLowerCase().includes(ql) ||
+      (i.field_4 || '').toLowerCase().includes(ql) ||
+      (i.field_1 || '').toLowerCase().includes(ql);
+  });
+
+  searchMeta.textContent = filtered.length + ' résultat' + (filtered.length !== 1 ? 's' : '') +
+    ' pour « ' + q + ' »';
+  show(searchMeta);
+  renderFaqList(filtered);
+}
+
+// ── Rendu liste FAQ ───────────────────────────────────────────────────────────
+function renderFaqList(items) {
+  faqList.innerHTML = '';
+
+  if (items.length === 0) {
+    faqList.innerHTML = '<div class="no-results"><p>Aucune fiche trouvée.</p>' +
+      '<p>Contactez l\'IT : <a class="contact-link" href="mailto:' + esc(CONFIG.contactEmail) + '">' + esc(CONFIG.contactEmail) + '</a></p></div>';
+    show(faqList);
+    return;
+  }
+
+  items.forEach(function(item) {
+    var article = document.createElement('article');
+    article.className = 'faq-item';
+    article.setAttribute('role', 'listitem');
+    article.dataset.id = item.Id;
+
+    var color = NIVEAU_COLORS[item.field_2] || '#546e7a';
+    var steps = parseSolution(item.field_4 || '');
+
+    // Header
+    var hdr = document.createElement('button');
+    hdr.className = 'faq-header';
+    hdr.setAttribute('aria-expanded', 'false');
+    hdr.innerHTML =
+      '<span class="badge" style="background:' + color + '">' + esc(item.field_2) + '</span>' +
+      '<span class="faq-question">' + esc(item.Title) + '</span>' +
+      '<span class="faq-site">' + esc(item.field_6 || '') + '</span>' +
+      '<span class="faq-chevron">▼</span>';
+    hdr.addEventListener('click', function() { toggleItem(item, article, hdr, steps); });
+
+    article.appendChild(hdr);
+    faqList.appendChild(article);
+  });
+
+  show(faqList);
+}
+
+// ── Accordéon ─────────────────────────────────────────────────────────────────
+function toggleItem(item, article, hdr, steps) {
+  var wasOpen = article.classList.contains('open');
+
+  // Fermer tous
+  document.querySelectorAll('.faq-item.open').forEach(function(el) {
+    el.classList.remove('open');
+    var b = el.querySelector('.faq-header');
+    b.setAttribute('aria-expanded', 'false');
+    b.querySelector('.faq-chevron').textContent = '▼';
+    var body = el.querySelector('.faq-body');
+    if (body) body.remove();
+  });
+
+  if (wasOpen) return;
+
+  // Ouvrir
+  article.classList.add('open');
+  hdr.setAttribute('aria-expanded', 'true');
+  hdr.querySelector('.faq-chevron').textContent = '▲';
+
+  var body = document.createElement('div');
+  body.className = 'faq-body';
+
+  var resumeHtml = item.field_3 ? '<p class="faq-resume">' + esc(item.field_3) + '</p>' : '';
+  var stepsHtml = steps.map(function(s) { return '<li>' + esc(s) + '</li>'; }).join('');
+
+  var contactLinks = '<a class="contact-link" href="mailto:' + esc(item.ContactIT || CONFIG.contactEmail) + '">📧 ' + esc(item.ContactIT || CONFIG.contactEmail) + '</a>';
+  if (CONFIG.teamsUrl) contactLinks += ' <a class="contact-link" href="' + esc(CONFIG.teamsUrl) + '" target="_blank" rel="noreferrer noopener">💬 Teams IT</a>';
+  if (CONFIG.helpdeskUrl) contactLinks += ' <a class="contact-link" href="' + esc(CONFIG.helpdeskUrl) + '" target="_blank" rel="noreferrer noopener">📝 Helpdesk</a>';
+
+  body.innerHTML = resumeHtml +
+    '<p class="solution-title">Solution pas-à-pas</p>' +
+    '<ol class="solution-steps">' + stepsHtml + '</ol>' +
+    '<div class="contact-bar"><span class="contact-label">🆘 Besoin d\'aide ?</span>' + contactLinks + '</div>' +
+    '<p class="faq-footer">Mis à jour : ' + esc(item.field_7 || '') + '</p>';
+
+  article.appendChild(body);
+}
+
+// ── Helpers ────────────────────────────────────────────────────────────────────
+function parseSolution(sol) {
+  var s = String(sol || '');
+  var byPipe = s.split('|').map(function(t) { return t.replace(/^\d+[)\.]\s*/, '').trim(); }).filter(Boolean);
+  if (byPipe.length > 1) return byPipe;
+  var parts = s.split(/(?=\d+[)\.]\s)/).map(function(t) { return t.replace(/^\d+[)\.]\s*/, '').trim(); }).filter(Boolean);
+  if (parts.length > 1) return parts;
+  return s.split(/[\r\n]+/).map(function(t) { return t.replace(/^\d+[)\.]\s*/, '').trim(); }).filter(Boolean);
+}
+
+function esc(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function show(el) { el.classList.remove('hidden'); }
+function hide(el) { el.classList.add('hidden'); }
+
+function buildTabs() {
+  catNav.innerHTML = '<button class="cat-tab active" data-key="">Toutes les catégories</button>';
+  CATEGORIES.forEach(function(cat) {
+    var btn = document.createElement('button');
+    btn.className = 'cat-tab';
+    btn.dataset.key = cat.key;
+    btn.textContent = cat.icon + ' ' + cat.label;
+    btn.addEventListener('click', function() { showCategory(cat.key); });
+    catNav.appendChild(btn);
+  });
+  catNav.querySelector('[data-key=""]').addEventListener('click', showHome);
+}
+
+function setActiveTab(key) {
+  catNav.querySelectorAll('.cat-tab').forEach(function(btn) {
+    btn.classList.toggle('active', btn.dataset.key === key);
+  });
+}
+
+// ── Événements ────────────────────────────────────────────────────────────────
+searchInput.addEventListener('input', function() {
+  var q = searchInput.value.trim();
+  clearBtn.classList.toggle('hidden', !q);
+  handleSearch(q);
+});
+
+clearBtn.addEventListener('click', function() {
+  searchInput.value = '';
+  hide(clearBtn);
+  showHome();
+  searchInput.focus();
+});
+
+backBtn.addEventListener('click', showHome);
+
+retryBtn.addEventListener('click', loadItems);
+
+// ── Démarrage ─────────────────────────────────────────────────────────────────
+loadItems();
+</script>
+</body>
+</html>
